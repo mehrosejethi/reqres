@@ -7,17 +7,11 @@ import (
 
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
-		Schema: map[string]*schema.Schema{
-			"token": {
-				Type:        schema.TypeString,
-				Required:    true,
-				Default:     "",
-				Description: descriptions["token"],
-			},
-		},
+		Schema: map[string]*schema.Schema{},
 
 		DataSourcesMap: map[string]*schema.Resource{
 			"reqres_data_source_users_per_page": dataSourceUsersPerPage(),
+			"reqres_data_source_single_user":    dataSourceSingleUser(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{

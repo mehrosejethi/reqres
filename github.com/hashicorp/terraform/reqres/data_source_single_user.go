@@ -5,16 +5,13 @@ import (
 
 	"fmt"
 	"io/ioutil"
-	"mime"
 	"net/http"
-	"regexp"
-	"strings"
 	"time"
 )
 
 func dataSourceSingleUser() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceRead,
+		Read: dataSourceSingleUserRead,
 
 		Schema: map[string]*schema.Schema{
 			"request_headers": &schema.Schema{
@@ -44,7 +41,7 @@ func dataSourceSingleUser() *schema.Resource {
 	}
 }
 
-func dataSourceRead(d *schema.ResourceData, meta interface{}) error {
+func dataSourceSingleUserRead(d *schema.ResourceData, meta interface{}) error {
 
 	url := "https://reqres.in/api/users/" + d.Get("user_id").(string)
 	headers := d.Get("request_headers").(map[string]interface{})
@@ -85,30 +82,4 @@ func dataSourceRead(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(time.Now().UTC().String())
 
 	return nil
-}
-
-// This is to prevent potential issues w/ binary files
-// and generally unprintable characters
-// See https://github.com/hashicorp/terraform/pull/3858#issuecomment-156856738
-func isContentTypeAllowed(contentType string) bool {
-
-	parsedType, params, err := mime.ParseMediaType(contentType)
-	if err != nil {
-		return false
-	}
-
-	allowedContentTypes := []*regexp.Regexp{
-		regexp.MustCompile("^text/.+"),
-		regexp.MustCompile("^application/json$"),
-		regexp.MustCompile("^application/samlmetadata\\+xml"),
-	}
-
-	for _, r := range allowedContentTypes {
-		if r.MatchString(parsedType) {
-			charset := strings.ToLower(params["charset"])
-			return charset == "" || charset == "utf-8"
-		}
-	}
-
-	return false
 }
