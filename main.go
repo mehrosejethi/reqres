@@ -7,5 +7,5 @@ import (
 
 func main() {
 	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: mockable.Provider})
+		ProviderFunc: reqres.Provider})
 }
