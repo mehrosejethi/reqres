@@ -15,7 +15,7 @@ func Provider() terraform.ResourceProvider {
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"reqres": resourceAddOrganisation(),
+			"reqres_create_user": resourceCreateUser(),
 		},
 	}
 }

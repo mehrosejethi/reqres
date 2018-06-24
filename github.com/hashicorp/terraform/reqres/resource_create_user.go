@@ -1,17 +1,22 @@
 package reqres
 
 import (
+	"bytes"
+
+	"github.com/hashicorp/terraform/helper/schema"
+
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
-
-	"github.com/hashicorp/terraform/helper/schema"
 )
 
-func dataSourceSingleUser() *schema.Resource {
+func resourceCreateUser() *schema.Resource {
 	return &schema.Resource{
-		Read: dataSourceSingleUserRead,
+		Create: resourceUserCreate,
+		Read:   resourceUserRead,
+		Update: resourceUserUpdate,
+		Delete: resourceUserDelete,
 
 		Schema: map[string]*schema.Schema{
 			"request_headers": &schema.Schema{
@@ -22,9 +27,9 @@ func dataSourceSingleUser() *schema.Resource {
 				},
 			},
 
-			"user_id": &schema.Schema{
+			"request_body": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 
 			"body": &schema.Schema{
@@ -38,14 +43,14 @@ func dataSourceSingleUser() *schema.Resource {
 	}
 }
 
-func dataSourceSingleUserRead(d *schema.ResourceData, meta interface{}) error {
-
-	url := "https://reqres.in/api/users/" + d.Get("user_id").(string)
+func resourceUserCreate(d *schema.ResourceData, m interface{}) error {
+	url := "https://reqres.in/api/users"
 	headers := d.Get("request_headers").(map[string]interface{})
+	jsonStr := []byte(d.Get("request_body").(string))
 
 	client := &http.Client{}
 
-	req, err := http.NewRequest("GET", url, nil)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	if err != nil {
 		return fmt.Errorf("Error creating request: %s", err)
 	}
@@ -61,13 +66,8 @@ func dataSourceSingleUserRead(d *schema.ResourceData, meta interface{}) error {
 
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != 201 {
 		return fmt.Errorf("HTTP request error. Response code: %d", resp.StatusCode)
-	}
-
-	contentType := resp.Header.Get("Content-Type")
-	if contentType == "" || isContentTypeAllowed(contentType) == false {
-		return fmt.Errorf("Content-Type is not a text type. Got: %s", contentType)
 	}
 
 	bytes, err := ioutil.ReadAll(resp.Body)
@@ -78,5 +78,17 @@ func dataSourceSingleUserRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("body", string(bytes))
 	d.SetId(time.Now().UTC().String())
 
+	return nil
+}
+
+func resourceUserRead(d *schema.ResourceData, m interface{}) error {
+	return nil
+}
+
+func resourceUserUpdate(d *schema.ResourceData, m interface{}) error {
+	return nil
+}
+
+func resourceUserDelete(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
