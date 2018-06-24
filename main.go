@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform/mockable"
 	"github.com/hashicorp/terraform/plugin"
+	"github.com/hashicorp/terraform/reqres"
 )
 
 func main() {
