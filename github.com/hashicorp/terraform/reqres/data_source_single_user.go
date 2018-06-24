@@ -23,11 +23,8 @@ func dataSourceSingleUser() *schema.Resource {
 			},
 
 			"user_id": &schema.Schema{
-				Type:     schema.TypeMap,
+				Type:     schema.TypeInt,
 				Optional: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
 			},
 
 			"body": &schema.Schema{
