@@ -24,7 +24,7 @@ func dataSourceSingleUser() *schema.Resource {
 
 			"user_id": &schema.Schema{
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 
 			"body": &schema.Schema{

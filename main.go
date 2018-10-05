@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform/plugin"
-	"github.com/hashicorp/terraform/reqres"
+	"github.com/hashicorp/terraform-providers/terraform-provider-reqres/reqres"
 )
 
 func main() {
