@@ -25,7 +25,7 @@ Clone repository to: `$GOPATH/src/github.com/hashicorp/terraform-providers/terra
 ```sh
 $ mkdir -p $GOPATH/src/github.com/hashicorp/terraform-providers
 $ cd $GOPATH/src/github.com/hashicorp/terraform-providers
-$ git clone https://github.com/mehrosejethi/reqres.git
+$ git clone https://github.com/mehrosejethi/terraform-provider-reqres.git
 ```
 
 Clone the Terraform library to: `$GOPATH/src/github.com/hashicorp/terraform'
@@ -38,8 +38,8 @@ $ git clone https://github.com/hashicorp/terraform.git
 Enter the provider directory and build the provider. A plugin by the name of 'terraform-provider-reqres' is created in the same folder
 
 ```sh
-$ cd $GOPATH/src/github.com/hashicorp/terraform-providers/reqres
-$ go build -o reqres
+$ cd $GOPATH/src/github.com/hashicorp/terraform-providers/terraform-provider-reqres
+$ go build -o terraform-provider-reqres
 ```
 
 ### Using the Provider
@@ -48,7 +48,7 @@ $ go build -o reqres
 Copy the provider build in the last step and place it in the same directory in which the terraform configuration files are written
 
 ```
-$ cp $GOPATH/src/github.com/hashicorp/terraform-providers/reqres/reqres terraform_config_file_dir
+$ cp $GOPATH/src/github.com/hashicorp/terraform-providers/terraform-provider-reqres/terraform-provider-reqres terraform_config_file_dir
 ```
 
 Create configuration files involving the provider 'reqres'
